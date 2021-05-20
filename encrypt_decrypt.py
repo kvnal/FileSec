@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
 
 import os
 from Crypto.Cipher import AES
@@ -12,10 +7,6 @@ import base64
 import re
 import time
 import getpass
-
-
-# In[2]:
-
 
 class main:
     def __init__(self,path,KEY):
@@ -124,13 +115,3 @@ class main:
                 dec.close()
         else:
             print('incorrect pass')
-# #         return nonce + encrypt
-    
-    
-
-
-# In[ ]:
-
-
-
-
