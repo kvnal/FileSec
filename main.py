@@ -35,7 +35,15 @@ def getDevicePass(path):
     return key
 
 
-    
+FILESEC = """
+███████ ██ ██      ███████ ███████ ███████  ██████ 
+██      ██ ██      ██      ██      ██      ██      
+█████   ██ ██      █████   ███████ █████   ██      
+██      ██ ██      ██           ██ ██      ██      
+██      ██ ███████ ███████ ███████ ███████  ██████ 
+                                                
+                                                   """
+print(FILESEC)
 parser = argparse.ArgumentParser()
 if __name__ == "__main__":
     parser.add_argument("path",type=str)    
