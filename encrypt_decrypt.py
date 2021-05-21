@@ -21,7 +21,6 @@ class main:
         return  key.encode()+ (AES.block_size - len(key))*b'*' 
     
     def setExtension(self,exe):
-        # add base64 #filename
         return f'&*{exe}*&'
     
     def setQA(self,Q,A):
@@ -34,7 +33,6 @@ class main:
         return base64.b64encode(data)
     
     def getExtension(self,data):
-        # remove base64
         return header_get.EX(data)
     
     def getQA(self,data):
@@ -47,7 +45,6 @@ class main:
         return base64.b64decode(data)
     
     def checkTime(self,header):
-        # print(self.getKey(header),header_get.TIME(time.ctime()))
         if(self.getKey(header)=="-reverseTime-"):
             if(self.KEY== header_get.TIME(time.ctime())):
                 return "-reverseTime-"
@@ -64,10 +61,13 @@ class main:
         if (input(f'Security question : \n{q}\n') == a):
             newPassword = getpass.getpass("New Password : ")
             if (getpass.getpass("Confirm New Password : ")==newPassword):
-                self.KEY = newPassword
+                self.KEY = self.getKey(header)
+                self.decrypt()
                 self.__filename = self.getExtension(header)
-                print(self.__filename)
+                self.KEY = newPassword
                 self.encrypt(q,a)
+
+
             return "Password changed Done!"
         return "Invalid Security Answer"
     
@@ -87,6 +87,8 @@ class main:
             
             enc.write(self.setBase64(data))
             enc.close()
+        os.remove(self.__filename)
+        
     
     def decrypt(self):
         
@@ -96,22 +98,20 @@ class main:
         data = file[1]
         
         header = file[0].decode()
-        #header base64
-        #header data
         fileName = self.getExtension(header)
-        #condition of forget password with set new password
         self.KEY = self.checkTime(header)
         if(self.getKey(header)==self.KEY):
-            print('oks')
             key = self.key16(self.KEY)
             nonce = data[:16]
             
             cipher = AES.new(key,AES.MODE_EAX,nonce)
             decrypt = cipher.decrypt(data[16:])
 
-            # verify pass
-            with open("decry"+fileName,'wb') as dec:
+            with open(fileName,'wb') as dec:
                 dec.write(decrypt)
                 dec.close()
+
+
+            os.remove(self.__filename)
         else:
             print('incorrect pass')

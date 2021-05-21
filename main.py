@@ -72,8 +72,6 @@ if __name__ == "__main__":
                 t2.start()
                 t2.join()
                 done=True
-                # edObj = ed.main(args.path,password).encrypt(q,a)
-                # animate.done=True
                 if(args.device):
                     os.chdir(args.device)
                     os.mkdir(".fileSec")
@@ -96,7 +94,7 @@ if __name__ == "__main__":
                 t2.start()
                 t2.join()
                 done=True
-                # edObj = ed.main(args.path,password).decrypt()
+                
             else:
                 edObj = ed.main(args.path,"").forgotPass()
                 print(edObj)
