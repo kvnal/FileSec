@@ -51,13 +51,14 @@ if __name__ == "__main__":
     parser.add_argument("-d","--decrypt",action="store_true")
     parser.add_argument("-r","--device",type=str)
     parser.add_argument("-f","--forgot",action="store_true")
+    parser.add_argument("-o","--open",action="store_true")
     
     args = parser.parse_args()
     print(args.device)
     t= threading.Thread(target= animate)
+
     if (ntpath.isfile(args.path)):
         # encrypt
-
         if(args.encrypt):
             print("use '-reverseTime-' if you want password to be in mm:hh format (24 hr fomat)")
             password = getpass.getpass("Password : ")
@@ -89,7 +90,7 @@ if __name__ == "__main__":
             if(not args.forgot):
                 
                 password = getpass.getpass("Password : ") if not args.device else getDevicePass(args.device)
-                t2 = threading.Thread(target=ed.main(args.path,password).decrypt())
+                t2 = threading.Thread(target=ed.main(args.path,password).decrypt(args.open))
                 t.start()
                 t2.start()
                 t2.join()
@@ -98,6 +99,7 @@ if __name__ == "__main__":
             else:
                 edObj = ed.main(args.path,"").forgotPass()
                 print(edObj)
+            
         else:
             print("file should have .lck extension to decrypt")
     else:

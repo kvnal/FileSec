@@ -15,7 +15,7 @@ class main:
         self.__filename=ntpath.basename(path)
         self.__extension=self.__filename[-4:]
         self.path= path[:len(self.__filename)] if path != self.__filename else False
-        os.chdir(self.path) if self.path else None
+        os.chdir(rf"{self.path}") if self.path else None
         
     def key16(self,key):
         return  key.encode()+ (AES.block_size - len(key))*b'*' 
@@ -90,7 +90,7 @@ class main:
         os.remove(self.__filename)
         
     
-    def decrypt(self):
+    def decrypt(self,_open=False):
         
         file = open(self.__filename[:-4]+'.lck','rb').read()
         file = self.getBase64(file)
@@ -113,5 +113,8 @@ class main:
 
 
             os.remove(self.__filename)
+            if(_open):
+                os.startfile(fileName)
+            
         else:
             print('incorrect pass')
